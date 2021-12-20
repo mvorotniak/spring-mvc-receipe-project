@@ -10,9 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- * Represents the Recipe DB table that has 1-1 relationship with Note
- */
 @Entity
 public class Recipe {
 

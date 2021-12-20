@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Ingredient {
@@ -20,7 +21,9 @@ public class Ingredient {
 
     private BigDecimal amount;
 
-    //TODO private UnitOfMeasure unitOfMeasure;
+    // No Cascade: We don't want to remove a UnitOfMeasure if we remove an Ingredient
+    @OneToOne
+    private UnitOfMeasure unitOfMeasure;
 
     // Many ingredients for one Recipe. No cascade here because we don't want to remove a Recipe if we remove an ingredient
     @ManyToOne
@@ -48,6 +51,14 @@ public class Ingredient {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
     }
 
     public Recipe getRecipe() {

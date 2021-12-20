@@ -7,9 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
-/**
- * Represents the Note DB table that has 1-1 relationship with Recipe
- */
 @Entity
 public class Note {
 
