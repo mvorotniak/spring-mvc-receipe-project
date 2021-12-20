@@ -1,6 +1,5 @@
 package com.mvoro.developer.springmvcrecipeproject.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +18,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // If a Recipe associated with this Note is removed then the note should also be removed
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Recipe recipe;
 
     // The database should store the property as Large Object

@@ -1,9 +1,13 @@
 package com.mvoro.developer.springmvcrecipeproject.domain;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -17,9 +21,14 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // No need for cascade here: if a Note is removed we don't want to remove the Recipe
-    @OneToOne
+    // Cascade: We remove a Note if we remove the associated Recipe
+    @OneToOne(cascade = CascadeType.ALL)
     private Note note;
+
+    // One Recipe with many Ingredients. Mapped by "recipe" property under Ingredient object.
+    // Cascade: We remove an Ingredient if we remove the Recipe
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 
     private String description;
 
@@ -54,6 +63,14 @@ public class Recipe {
 
     public void setNote(Note note) {
         this.note = note;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getDescription() {
