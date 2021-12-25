@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +43,10 @@ public class Recipe {
 
     private String directions;
 
-    //TODO private Difficulty difficulty;
+    // We choose EnumType.STRING and not EnumType.ORDINAL (the default) because we want to
+    // store the enum values as Strings in the database
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
 
     // The database should store the property as Large Object
     private byte[] image;
@@ -124,6 +129,14 @@ public class Recipe {
 
     public void setDirections(String directions) {
         this.directions = directions;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public byte[] getImage() {
