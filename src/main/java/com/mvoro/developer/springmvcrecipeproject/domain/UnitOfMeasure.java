@@ -1,10 +1,13 @@
 package com.mvoro.developer.springmvcrecipeproject.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class UnitOfMeasure {
@@ -14,8 +17,8 @@ public class UnitOfMeasure {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Ingredient ingredient;
+    @OneToMany(mappedBy = "unitOfMeasure")
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     private String description;
 
@@ -27,12 +30,12 @@ public class UnitOfMeasure {
         this.id = id;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getDescription() {

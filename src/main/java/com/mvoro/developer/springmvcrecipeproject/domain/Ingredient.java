@@ -3,12 +3,10 @@ package com.mvoro.developer.springmvcrecipeproject.domain;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Ingredient {
@@ -23,7 +21,7 @@ public class Ingredient {
     private BigDecimal amount;
 
     // No Cascade: We don't want to remove a UnitOfMeasure if we remove an Ingredient
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private UnitOfMeasure unitOfMeasure;
 
     // Many ingredients for one Recipe. No cascade here because we don't want to remove a Recipe if we remove an ingredient
