@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -22,14 +21,22 @@ import com.mvoro.developer.springmvcrecipeproject.repositories.UnitOfMeasureRepo
 @Component
 public class RecipesInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private UnitOfMeasureRepository unitOfMeasureRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    @Autowired
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
+
+    // Constructor injection is recommended over field injection
+    public RecipesInitializer(
+        CategoryRepository categoryRepository,
+        UnitOfMeasureRepository unitOfMeasureRepository,
+        RecipeRepository recipeRepository
+    ) {
+        this.categoryRepository = categoryRepository;
+        this.unitOfMeasureRepository = unitOfMeasureRepository;
+        this.recipeRepository = recipeRepository;
+    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -46,23 +53,12 @@ public class RecipesInitializer implements ApplicationListener<ContextRefreshedE
             .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Tablespoon'"));
         UnitOfMeasure cup = unitOfMeasureRepository.findByDescription("Cup")
             .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Cup'"));
-        UnitOfMeasure can = unitOfMeasureRepository.findByDescription("Can")
-            .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Can'"));
 
-        Ingredient flour = new Ingredient();
-        flour.setDescription("Flour");
-        flour.setAmount(BigDecimal.valueOf(2));
-        flour.setUnitOfMeasure(teaspoon);
+        Note pumpkinNote = new Note();
+        pumpkinNote.setNote("These Pumpkin Chocolate Chip Muffins combine cozy pumpkin spice with pockets of rich chocolate. They’re an easy way to add some much-needed spiced comfort to chilly mornings.");
 
-        Ingredient spice = new Ingredient();
-        spice.setDescription("Pumpkin pie spice");
-        spice.setAmount(BigDecimal.valueOf(1));
-        spice.setUnitOfMeasure(teaspoon);
-
-        Ingredient powder = new Ingredient();
-        powder.setDescription("Baking powder");
-        powder.setAmount(BigDecimal.valueOf(1.5));
-        powder.setUnitOfMeasure(tablespoon);
+        Note smoothieNote = new Note();
+        smoothieNote.setNote("Blend up a big glass of this refreshing Cantaloupe Smoothie for a quick cool down. Ripe pieces of juicy melon make the perfect light and sweet base for the chilly beverage.");
 
         Recipe pumpkin = new Recipe();
         pumpkin.setDescription("Pumpkin Chocolate Chip Muffins");
@@ -73,28 +69,10 @@ public class RecipesInitializer implements ApplicationListener<ContextRefreshedE
         pumpkin.setUrl("https://www.simplyrecipes.com/pumpkin-chocolate-chip-muffins-recipe-5206559");
         pumpkin.setDirections("Bakery");
         pumpkin.setDifficulty(Difficulty.MODERATE);
-        pumpkin.getIngredients().add(flour);
-        pumpkin.getIngredients().add(spice);
-        pumpkin.getIngredients().add(powder);
-
-        flour.setRecipe(pumpkin);
-        spice.setRecipe(pumpkin);
-        powder.setRecipe(pumpkin);
-
-        Ingredient cantaloupe = new Ingredient();
-        cantaloupe.setDescription("Cantaloupe");
-        cantaloupe.setAmount(BigDecimal.valueOf(0.5));
-        cantaloupe.setUnitOfMeasure(cup);
-
-        Ingredient yogurt = new Ingredient();
-        yogurt.setDescription("Greek yogurt");
-        yogurt.setAmount(BigDecimal.valueOf(0.25));
-        yogurt.setUnitOfMeasure(cup);
-
-        Ingredient juice = new Ingredient();
-        juice.setDescription("Pineapple juice");
-        juice.setAmount(BigDecimal.valueOf(0.5));
-        juice.setUnitOfMeasure(tablespoon);
+        pumpkin.addIngredient(new Ingredient("Flour", BigDecimal.valueOf(2), teaspoon));
+        pumpkin.addIngredient(new Ingredient("Pumpkin pie spice", BigDecimal.valueOf(1), teaspoon));
+        pumpkin.addIngredient(new Ingredient("Baking powder", BigDecimal.valueOf(1.5), tablespoon));
+        pumpkin.setNote(pumpkinNote);
 
         Recipe smoothie = new Recipe();
         smoothie.setDescription("Cantaloupe Smoothie");
@@ -105,27 +83,14 @@ public class RecipesInitializer implements ApplicationListener<ContextRefreshedE
         smoothie.setUrl("https://www.simplyrecipes.com/cantaloupe-smoothie-recipe-5204176");
         smoothie.setDirections("Drinks");
         smoothie.setDifficulty(Difficulty.EASY);
-        smoothie.getIngredients().add(cantaloupe);
-        smoothie.getIngredients().add(yogurt);
-        smoothie.getIngredients().add(juice);
-
-        cantaloupe.setRecipe(smoothie);
-        yogurt.setRecipe(smoothie);
-        juice.setRecipe(smoothie);
+        smoothie.addIngredient(new Ingredient("Cantaloupe", BigDecimal.valueOf(0.5), cup));
+        smoothie.addIngredient(new Ingredient("Greek yogurt", BigDecimal.valueOf(0.25), cup));
+        smoothie.addIngredient(new Ingredient("Pineapple juice", BigDecimal.valueOf(0.5), cup));
+        smoothie.setNote(smoothieNote);
 
         // Recipe-Category Many to Many relationship
         pumpkin.getCategories().add(breakfast);
         smoothie.getCategories().add(breakfast);
-
-        Note pumpkinNote = new Note();
-        pumpkinNote.setNote("These Pumpkin Chocolate Chip Muffins combine cozy pumpkin spice with pockets of rich chocolate. They’re an easy way to add some much-needed spiced comfort to chilly mornings.");
-        pumpkinNote.setRecipe(pumpkin);
-        pumpkin.setNote(pumpkinNote);
-
-        Note smoothieNote = new Note();
-        smoothieNote.setNote("Blend up a big glass of this refreshing Cantaloupe Smoothie for a quick cool down. Ripe pieces of juicy melon make the perfect light and sweet base for the chilly beverage.");
-        smoothieNote.setRecipe(smoothie);
-        smoothie.setNote(smoothieNote);
 
         Set<Recipe> recipes = new HashSet<>();
         recipes.add(pumpkin);
