@@ -16,6 +16,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * Entity classes have different requirements than plain Java classes.
+ * That makes Lombok’s generated equals() and hashCode() methods unusable.
+ * You can use the @Getter, @Setter, and @Builder annotation without breaking your application.
+ * The only Lombok annotations you need to avoid are @Data, @ToString, and @EqualsAndHashCode.
+ */
+@Getter
+@Setter
 @Entity
 public class Recipe {
 
@@ -62,29 +73,9 @@ public class Recipe {
     // The database should store the property as Large Object
     private byte[] image;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Note getNote() {
-        return note;
-    }
-
     public void setNote(Note note) {
         this.note = note;
         note.setRecipe(this);
-    }
-
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
     }
 
     // Bidirectional relationship
@@ -93,83 +84,4 @@ public class Recipe {
         ingredient.setRecipe(this);
     }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPrepTime() {
-        return prepTime;
-    }
-
-    public void setPrepTime(int prepTime) {
-        this.prepTime = prepTime;
-    }
-
-    public int getCookTime() {
-        return cookTime;
-    }
-
-    public void setCookTime(int cookTime) {
-        this.cookTime = cookTime;
-    }
-
-    public int getServings() {
-        return servings;
-    }
-
-    public void setServings(int servings) {
-        this.servings = servings;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDirections() {
-        return directions;
-    }
-
-    public void setDirections(String directions) {
-        this.directions = directions;
-    }
-
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 }

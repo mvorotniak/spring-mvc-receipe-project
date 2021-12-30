@@ -18,6 +18,9 @@ import com.mvoro.developer.springmvcrecipeproject.repositories.CategoryRepositor
 import com.mvoro.developer.springmvcrecipeproject.repositories.RecipeRepository;
 import com.mvoro.developer.springmvcrecipeproject.repositories.UnitOfMeasureRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class RecipesInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -95,6 +98,8 @@ public class RecipesInitializer implements ApplicationListener<ContextRefreshedE
         Set<Recipe> recipes = new HashSet<>();
         recipes.add(pumpkin);
         recipes.add(smoothie);
+
+        log.info("Returning " + recipes.size() + " recipes...");
 
         return recipes;
     }
