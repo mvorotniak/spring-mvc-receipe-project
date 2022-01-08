@@ -1,6 +1,7 @@
 package com.mvoro.developer.springmvcrecipeproject.services;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -26,5 +27,16 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
 
         return recipes;
+    }
+
+    @Override
+    public Recipe findById(Long id) {
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+
+        if (recipe.isEmpty()) {
+            throw new RuntimeException("Recipe not found by ID " + id);
+        }
+
+        return recipe.get();
     }
 }

@@ -7,4 +7,6 @@ import com.mvoro.developer.springmvcrecipeproject.domain.Recipe;
 public interface RecipeService {
 
     Set<Recipe> getAllRecipes();
+
+    Recipe findById(Long id);
 }
