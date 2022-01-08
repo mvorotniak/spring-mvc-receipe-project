@@ -17,6 +17,9 @@
     <div class="row pt-5">
         <div class="col-lg-8 mx-auto">
             <h1 class="display-4" th:text="${recipe.description}">Not Found</h1>
+            <div th:each="category: ${recipe.categories}">
+                <p class="lead mb-0" th:text="${category.name}">Category</p>
+            </div>
             <p class="lead">Source: <a th:href="${recipe.url}" class="text-white">
                 <u th:text="${recipe.source}">Source Not Found</u></a></p>
         </div>
