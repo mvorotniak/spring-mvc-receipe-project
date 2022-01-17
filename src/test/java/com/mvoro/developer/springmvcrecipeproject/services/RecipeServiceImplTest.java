@@ -4,12 +4,14 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.mvoro.developer.springmvcrecipeproject.converters.RecipeCommandToRecipe;
+import com.mvoro.developer.springmvcrecipeproject.converters.RecipeToRecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.domain.Recipe;
 import com.mvoro.developer.springmvcrecipeproject.repositories.RecipeRepository;
 
@@ -23,15 +25,17 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RecipeServiceImplTest {
 
-    private RecipeService recipeService;
-
     @Mock
     private RecipeRepository recipeRepository;
 
-    @BeforeEach
-    void setUp() {
-        recipeService = new RecipeServiceImpl(recipeRepository);
-    }
+    @Mock
+    private RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    private RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @InjectMocks
+    private RecipeService recipeService;
 
     @Test
     void getAllRecipes() {
