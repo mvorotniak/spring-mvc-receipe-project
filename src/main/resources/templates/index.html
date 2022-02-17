@@ -24,22 +24,24 @@
 
 <div class="container py-5">
     <div class="row">
-        <div class="col-lg-7 mx-auto bg-white rounded shadow">
+        <div class="col-lg-10 mx-auto bg-white rounded shadow">
 
             <div class="table-responsive">
                 <table class="table table-fixed">
                     <thead>
                     <tr>
                         <th scope="col" class="col-3">#</th>
-                        <th scope="col" class="col-6">Description</th>
+                        <th scope="col" class="col-3">Description</th>
                         <th scope="col" class="col-3">Details</th>
+                        <th scope="col" class="col-3">Update</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="recipe: ${recipes}">
-                        <th scope="row" class="col-3" th:text="${recipe.id}">null</th>
-                        <td class="col-6" th:text="${recipe.description}">Not Found</td>
-                        <td class="col-3"><a href="#" th:href="@{'/recipes/show/' + ${recipe.id}}">Details</a></td>
+                        <th class="col-3" th:text="${recipe.id}">null</th>
+                        <td class="col-3" th:text="${recipe.description}">Not Found</td>
+                        <td class="col-3"><a href="#" th:href="@{'/recipes/' + ${recipe.id} + '/show'}">Details</a></td>
+                        <td class="col-3"><a href="#" th:href="@{'/recipes/' + ${recipe.id}  + '/update'}">Update</a></td>
                     </tr>
                     </tbody>
                 </table>

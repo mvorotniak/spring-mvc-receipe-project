@@ -57,6 +57,15 @@ public class RecipeServiceImpl implements RecipeService {
         return recipe.get();
     }
 
+    @Override
+    // Marking as transactional as we're making a conversion outside the scope. Avoiding issues that might be cause because of lazy loading.
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        Recipe recipe = findById(id);
+
+        return recipeToRecipeCommand.convert(recipe);
+    }
+
     // We want this method to be executed in a transaction
     @Override
     @Transactional

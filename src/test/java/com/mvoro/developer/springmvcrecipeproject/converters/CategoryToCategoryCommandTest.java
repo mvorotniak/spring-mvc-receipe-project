@@ -33,6 +33,8 @@ class CategoryToCategoryCommandTest {
 
     @Test
     void convert_nullValue() {
-        assertThrows(NullPointerException.class, () -> categoryToCategoryCommand.convert(null));
+        CategoryCommand categoryCommand = categoryToCategoryCommand.convert(null);
+
+        assertNull(categoryCommand);
     }
 }
