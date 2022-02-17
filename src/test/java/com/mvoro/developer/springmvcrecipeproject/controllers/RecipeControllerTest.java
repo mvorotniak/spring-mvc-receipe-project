@@ -89,4 +89,11 @@ class RecipeControllerTest {
             .andExpect(model().attributeExists("recipe"))
             .andExpect(view().name("recipeform"));
     }
+
+    @Test
+    void deleteRecipe() throws Exception {
+        mockMvc.perform(get("/recipes/" + 1L + "/delete"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/"));
+    }
 }

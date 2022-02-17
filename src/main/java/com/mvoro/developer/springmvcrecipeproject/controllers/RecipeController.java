@@ -2,6 +2,7 @@ package com.mvoro.developer.springmvcrecipeproject.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    @GetMapping
     @RequestMapping("/{id}/show")
     public String showRecipe(@PathVariable Long id, Model model) {
         log.info("Showing recipe by id page...");
@@ -31,6 +33,7 @@ public class RecipeController {
         return "recipe";
     }
 
+    @GetMapping
     @RequestMapping("/new")
     public String createNewRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
@@ -46,16 +49,29 @@ public class RecipeController {
     @PostMapping
     @RequestMapping("/recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+        log.info("Creating new recipe with title '{}'...", recipeCommand.getDescription());
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
 
         return "redirect:/recipes/" + savedRecipeCommand.getId() + "/show";
     }
 
+    @GetMapping
     @RequestMapping("/{id}/update")
     public String updateRecipe(@PathVariable Long id, Model model) {
+        log.info("Updating recipe with id {}...", id);
         model.addAttribute("recipe", recipeService.findCommandById(id));
 
         return "recipeform";
+    }
+
+    @GetMapping
+    @RequestMapping("{id}/delete")
+    public String deleteRecipe(@PathVariable Long id) {
+        log.info("Deleting recipe with id {}...", id);
+        recipeService.deleteById(id);
+
+        // Redirect to the main page
+        return "redirect:/";
     }
 
 }
