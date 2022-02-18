@@ -9,7 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.mvoro.developer.springmvcrecipeproject.commands.IngredientCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
+import com.mvoro.developer.springmvcrecipeproject.services.IngredientService;
 import com.mvoro.developer.springmvcrecipeproject.services.RecipeService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,6 +25,9 @@ class IngredientControllerTest {
 
     @Mock
     private RecipeService recipeService;
+
+    @Mock
+    private IngredientService ingredientService;
 
     @InjectMocks
     private IngredientController controller;
@@ -44,5 +49,17 @@ class IngredientControllerTest {
         mockMvc.perform(get("/recipe/" + 1L + "/ingredients"))
             .andExpect(model().attributeExists("recipe"))
             .andExpect(view().name("recipe/ingredient/list"));
+    }
+
+    @Test
+    public void showIngredient() throws Exception {
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(1L);
+
+        when(ingredientService.findCommandByRecipeAndIngredientId(any(), any())).thenReturn(ingredientCommand);
+
+        mockMvc.perform(get("/recipe/" + 1L + "/ingredient/" + 1L + "/show"))
+            .andExpect(model().attributeExists("ingredient"))
+            .andExpect(view().name("recipe/ingredient/show"));
     }
 }
