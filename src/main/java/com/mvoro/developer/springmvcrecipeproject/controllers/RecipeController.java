@@ -30,7 +30,7 @@ public class RecipeController {
         log.info("Showing recipe by id page...");
         model.addAttribute("recipe", recipeService.findById(id));
 
-        return "recipe";
+        return "recipe/recipe";
     }
 
     @GetMapping
@@ -38,7 +38,7 @@ public class RecipeController {
     public String createNewRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
 
-        return "recipeform";
+        return "recipe/recipeform";
     }
 
     /**
@@ -61,7 +61,7 @@ public class RecipeController {
         log.info("Updating recipe with id {}...", id);
         model.addAttribute("recipe", recipeService.findCommandById(id));
 
-        return "recipeform";
+        return "recipe/recipeform";
     }
 
     @GetMapping
