@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.mvoro.developer.springmvcrecipeproject.commands.IngredientCommand;
 import com.mvoro.developer.springmvcrecipeproject.domain.Ingredient;
+import com.mvoro.developer.springmvcrecipeproject.domain.Recipe;
 import com.mvoro.developer.springmvcrecipeproject.domain.UnitOfMeasure;
 
 import lombok.Synchronized;
@@ -32,6 +33,12 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
 
         UnitOfMeasure unitOfMeasure = unitOfMeasureCommandToUnitOfMeasure.convert(source.getUnitOfMeasureCommand());
         ingredient.setUnitOfMeasure(unitOfMeasure);
+
+        if (source.getRecipeId() != null) {
+            Recipe recipe = new Recipe();
+            recipe.setId(source.getRecipeId());
+            ingredient.setRecipe(recipe);
+        }
 
         return ingredient;
     }
