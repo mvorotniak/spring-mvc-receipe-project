@@ -72,8 +72,23 @@ public class IngredientController {
     @PostMapping
     @RequestMapping("/recipe/{id}/ingredient")
     public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand ingredientCommand) {
-        ingredientService.saveIngredientCommand(ingredientCommand);
+        IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
 
-        return "redirect:/recipe/" + ingredientCommand.getRecipeId() + "/ingredient/" + ingredientCommand.getId() + "/show";
+        return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() + "/ingredient/" + savedIngredientCommand.getId() + "/show";
     }
+
+    @GetMapping
+    @RequestMapping("/recipe/{id}/ingredient/new")
+    public String createNewIngredient(@PathVariable Long id, Model model) {
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(id);
+
+        Set<UnitOfMeasureCommand> unitOfMeasureCommandSet = unitOfMeasureService.findAllCommand();
+
+        model.addAttribute("ingredient", ingredientCommand);
+        model.addAttribute("uoms", unitOfMeasureCommandSet);
+
+        return "recipe/ingredient/form";
+    }
+
 }

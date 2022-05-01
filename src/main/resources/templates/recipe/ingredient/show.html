@@ -41,6 +41,7 @@
                         <td class="col-5" th:text="${ingredient.description}">Not Found</td>
                         <td class="col-3" th:text="${ingredient.amount}">Not Found</td>
                         <td class="col-3" th:text="${ingredient.unitOfMeasureCommand.description}">Not Found</td>
+                        <td class="col-3"><a href="#" th:href="@{'/recipe/' + ${ingredient.recipeId} + '/ingredients'}">See in Recipe</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -1,5 +1,6 @@
 package com.mvoro.developer.springmvcrecipeproject.services;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     @Transactional
-    public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
+    public IngredientCommand saveIngredientCommand(final IngredientCommand ingredientCommand) {
         RecipeCommand recipeCommand = recipeService.findCommandById(ingredientCommand.getRecipeId());
         Optional<IngredientCommand> ingredientCommandOptional = findIngredientCommandById(recipeCommand, ingredientCommand.getId());
 
@@ -50,13 +51,26 @@ public class IngredientServiceImpl implements IngredientService {
 
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
 
-        return findIngredientCommandById(savedRecipeCommand, ingredientCommand.getId()).get();
+        return findIngredientCommandById(savedRecipeCommand, ingredientCommand.getId())
+            .orElse(findIngredientCommandByAttributes(savedRecipeCommand, ingredientCommand.getDescription(), ingredientCommand.getAmount(),
+                ingredientCommand.getUnitOfMeasureCommand().getId()));
     }
 
-    private Optional<IngredientCommand> findIngredientCommandById(RecipeCommand recipeCommand, Long id) {
+    private Optional<IngredientCommand> findIngredientCommandById(final RecipeCommand recipeCommand, final Long id) {
         return recipeCommand.getIngredientCommands().stream()
             .filter(command -> command.getId().equals(id))
             .findFirst();
+    }
+
+    private IngredientCommand findIngredientCommandByAttributes(final RecipeCommand recipeCommand, final String description,
+        final BigDecimal amount, final Long uomId) {
+
+        return recipeCommand.getIngredientCommands().stream()
+            .filter(ingredientCommand -> ingredientCommand.getDescription().equals(description))
+            .filter(ingredientCommand -> ingredientCommand.getAmount().equals(amount))
+            .filter(ingredientCommand -> ingredientCommand.getUnitOfMeasureCommand().getId().equals(uomId))
+            .findFirst()
+            .orElse(null);
     }
 
     private void updateOrAddIngredient(RecipeCommand recipeCommand,
