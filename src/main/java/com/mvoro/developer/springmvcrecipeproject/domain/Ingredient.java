@@ -22,7 +22,6 @@ public class Ingredient {
      * It cannot do so, unless there is a no-arg constructor - it can't guess what the arguments should be.
      */
     public Ingredient() {
-
     }
 
     public Ingredient(String description, BigDecimal amount, UnitOfMeasure unitOfMeasure) {

@@ -24,11 +24,11 @@ public class RecipeCommand {
 
     private String description;
 
-    private int prepTime;
+    private Integer prepTime;
 
-    private int cookTime;
+    private Integer cookTime;
 
-    private int servings;
+    private Integer servings;
 
     private String source;
 
@@ -38,6 +38,6 @@ public class RecipeCommand {
 
     private Difficulty difficulty;
 
-    private byte[] image;
+    private Byte[] image;
 
 }

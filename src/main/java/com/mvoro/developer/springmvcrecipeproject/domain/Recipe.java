@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -53,11 +54,13 @@ public class Recipe {
 
     private String description;
 
-    private int prepTime;
+    // A best practice and a recommendation by the Hibernate team is to use wrapper classes instead of primitives
+    // as classes can be null
+    private Integer prepTime;
 
-    private int cookTime;
+    private Integer cookTime;
 
-    private int servings;
+    private Integer servings;
 
     private String source;
 
@@ -70,8 +73,8 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    // The database should store the property as Large Object
-    private byte[] image;
+    @Lob
+    private Byte[] image;
 
     public void setNote(Note note) {
         this.note = note;
