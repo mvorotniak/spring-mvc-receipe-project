@@ -34,3 +34,10 @@ body {
     background: linear-gradient(to right, #74ebd5, #ACB6E5);
     min-height: 100vh;
 }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
