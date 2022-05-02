@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mvoro.developer.springmvcrecipeproject.commands.IngredientCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.UnitOfMeasureCommand;
+import com.mvoro.developer.springmvcrecipeproject.repositories.IngredientRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,14 +17,18 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
+    private final IngredientRepository ingredientRepository;
+
     private final RecipeService recipeService;
 
     private final UnitOfMeasureService unitOfMeasureService;
 
     public IngredientServiceImpl(
+        IngredientRepository ingredientRepository,
         RecipeService recipeService,
         UnitOfMeasureService unitOfMeasureService
     ) {
+        this.ingredientRepository = ingredientRepository;
         this.recipeService = recipeService;
         this.unitOfMeasureService = unitOfMeasureService;
     }
@@ -54,6 +59,13 @@ public class IngredientServiceImpl implements IngredientService {
         return findIngredientCommandById(savedRecipeCommand, ingredientCommand.getId())
             .orElse(findIngredientCommandByAttributes(savedRecipeCommand, ingredientCommand.getDescription(), ingredientCommand.getAmount(),
                 ingredientCommand.getUnitOfMeasureCommand().getId()));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        ingredientRepository.deleteById(id);
+
+        log.debug("Deleted ingredient with id {}", id);
     }
 
     private Optional<IngredientCommand> findIngredientCommandById(final RecipeCommand recipeCommand, final Long id) {

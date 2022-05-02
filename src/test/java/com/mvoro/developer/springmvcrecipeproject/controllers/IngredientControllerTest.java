@@ -101,6 +101,11 @@ class IngredientControllerTest {
 
     @Test
     public void saveOrUpdateIngredient() throws Exception {
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(2L);
+        ingredientCommand.setRecipeId(1L);
+        when(ingredientService.saveIngredientCommand(any())).thenReturn(ingredientCommand);
+
         mockMvc.perform(post("/recipe/" + 1L + "/ingredient"))
             .andExpect(status().is3xxRedirection());
 
