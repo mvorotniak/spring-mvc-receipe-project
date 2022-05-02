@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mvoro.developer.springmvcrecipeproject.commands.IngredientCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.UnitOfMeasureCommand;
+import com.mvoro.developer.springmvcrecipeproject.domain.Ingredient;
 import com.mvoro.developer.springmvcrecipeproject.repositories.IngredientRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -62,10 +63,17 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        ingredientRepository.deleteById(id);
+    public void deleteByRecipeAndIngredientId(Long recipeId, Long id) {
+        Optional<Ingredient> ingredientOptional = ingredientRepository.findById(id)
+            .filter(ing -> ing.getRecipe().getId().equals(recipeId));
 
-        log.debug("Deleted ingredient with id {}", id);
+        if (ingredientOptional.isPresent()) {
+            ingredientRepository.deleteById(id);
+
+            log.debug("Deleted ingredient with id {}", id);
+        } else {
+            log.warn("Unable to delete ingredient with id {}. It doesn't exist in recipe with id {}", id, recipeId);
+        }
     }
 
     private Optional<IngredientCommand> findIngredientCommandById(final RecipeCommand recipeCommand, final Long id) {
