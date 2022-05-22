@@ -22,8 +22,7 @@
             </div>
             <p class="lead">Source: <a th:href="${recipe.url}" class="text-white">
                 <u th:text="${recipe.source}">Source Not Found</u></a></p>
-            <img src="../../static/images/Pumpkin-Chocolate-Chip-Muffins.jpg"
-                 th:src="@{/images/Pumpkin-Chocolate-Chip-Muffins.jpg}" class="center">
+            <img th:src="@{'/recipes/' + ${recipe.id} + '/recipeImage'}" class="center">
             <a href="#" th:href="@{'/recipes/' + ${recipe.id} + '/image'}">Change recipe image</a>
         </div>
     </div>
