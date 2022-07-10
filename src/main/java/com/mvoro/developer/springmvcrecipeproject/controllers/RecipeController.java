@@ -1,5 +1,6 @@
 package com.mvoro.developer.springmvcrecipeproject.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
@@ -28,7 +30,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}/show")
-    public String showRecipe(@PathVariable Long id, Model model) {
+    public String showRecipe(@PathVariable final Long id, final Model model) {
         log.info("Showing recipe by id page...");
         model.addAttribute("recipe", recipeService.findById(id));
 
@@ -36,7 +38,7 @@ public class RecipeController {
     }
 
     @GetMapping("/new")
-    public String createNewRecipe(Model model) {
+    public String createNewRecipe(final Model model) {
         model.addAttribute("recipe", new RecipeCommand());
 
         return "recipe/recipeform";
@@ -48,7 +50,7 @@ public class RecipeController {
      * @return redirects to a page that shows the recently created recipe
      */
     @PostMapping("/recipe")
-    public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+    public String saveOrUpdateRecipe(@ModelAttribute final RecipeCommand recipeCommand) {
         log.info("Creating new recipe with title '{}'...", recipeCommand.getDescription());
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
 
@@ -56,7 +58,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}/update")
-    public String updateRecipe(@PathVariable Long id, Model model) {
+    public String updateRecipe(@PathVariable final Long id, final Model model) {
         log.info("Updating recipe with id {}...", id);
         model.addAttribute("recipe", recipeService.findCommandById(id));
 
@@ -64,7 +66,7 @@ public class RecipeController {
     }
 
     @GetMapping("{id}/delete")
-    public String deleteRecipe(@PathVariable Long id) {
+    public String deleteRecipe(@PathVariable final Long id) {
         log.info("Deleting recipe with id {}...", id);
         recipeService.deleteById(id);
 
@@ -78,6 +80,18 @@ public class RecipeController {
 
         final ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("recipe/404error");
+        modelAndView.addObject("exception", e);
+
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormatException(final Exception e) {
+        log.error("Handling 'Bad Request' Exception...");
+
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("recipe/errors/400error");
         modelAndView.addObject("exception", e);
 
         return modelAndView;
