@@ -10,6 +10,7 @@ import com.mvoro.developer.springmvcrecipeproject.commands.IngredientCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.commands.UnitOfMeasureCommand;
 import com.mvoro.developer.springmvcrecipeproject.domain.Ingredient;
+import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import com.mvoro.developer.springmvcrecipeproject.repositories.IngredientRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<IngredientCommand> ingredientCommandOptional = findIngredientCommandById(recipeCommand, id);
 
         if (ingredientCommandOptional.isEmpty()) {
-            throw new RuntimeException("Unable to find ingredient with id " + id + " in recipe with id " + recipeId);
+            throw new NotFoundException("Unable to find ingredient with id " + id + " in recipe with id " + recipeId);
         }
 
         return ingredientCommandOptional.get();

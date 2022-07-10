@@ -14,6 +14,7 @@ import com.mvoro.developer.springmvcrecipeproject.domain.Ingredient;
 import com.mvoro.developer.springmvcrecipeproject.domain.Note;
 import com.mvoro.developer.springmvcrecipeproject.domain.Recipe;
 import com.mvoro.developer.springmvcrecipeproject.domain.UnitOfMeasure;
+import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import com.mvoro.developer.springmvcrecipeproject.repositories.CategoryRepository;
 import com.mvoro.developer.springmvcrecipeproject.repositories.RecipeRepository;
 import com.mvoro.developer.springmvcrecipeproject.repositories.UnitOfMeasureRepository;
@@ -48,14 +49,14 @@ public class RecipesInitializer implements ApplicationListener<ContextRefreshedE
 
     private Set<Recipe> getRecipes() {
         Category breakfast =  categoryRepository.findByName("Breakfast")
-            .orElseThrow(() -> new RuntimeException("Unable to find category 'Breakfast'"));
+            .orElseThrow(() -> new NotFoundException("Unable to find category 'Breakfast'"));
 
         UnitOfMeasure teaspoon = unitOfMeasureRepository.findByDescription("Teaspoon")
-            .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Teaspoon'"));
+            .orElseThrow(() -> new NotFoundException("Unable to find unit of measure 'Teaspoon'"));
         UnitOfMeasure tablespoon = unitOfMeasureRepository.findByDescription("Tablespoon")
-            .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Tablespoon'"));
+            .orElseThrow(() -> new NotFoundException("Unable to find unit of measure 'Tablespoon'"));
         UnitOfMeasure cup = unitOfMeasureRepository.findByDescription("Cup")
-            .orElseThrow(() -> new RuntimeException("Unable to find unit of measure 'Cup'"));
+            .orElseThrow(() -> new NotFoundException("Unable to find unit of measure 'Cup'"));
 
         Note pumpkinNote = new Note();
         pumpkinNote.setNote("These Pumpkin Chocolate Chip Muffins combine cozy pumpkin spice with pockets of rich chocolate. They’re an easy way to add some much-needed spiced comfort to chilly mornings.");

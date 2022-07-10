@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -68,6 +69,6 @@ class RecipeServiceImplTest {
     void findById_notFound() {
         when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> recipeService.findById(1L));
+        assertThrows(NotFoundException.class, () -> recipeService.findById(1L));
     }
 }

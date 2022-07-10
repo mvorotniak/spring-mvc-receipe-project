@@ -11,6 +11,7 @@ import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.converters.RecipeCommandToRecipe;
 import com.mvoro.developer.springmvcrecipeproject.converters.RecipeToRecipeCommand;
 import com.mvoro.developer.springmvcrecipeproject.domain.Recipe;
+import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import com.mvoro.developer.springmvcrecipeproject.repositories.RecipeRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipe = recipeRepository.findById(id);
 
         if (recipe.isEmpty()) {
-            throw new RuntimeException("Recipe not found by ID " + id);
+            throw new NotFoundException("Recipe not found by ID " + id);
         }
 
         return recipe.get();
