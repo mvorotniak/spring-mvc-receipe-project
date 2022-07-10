@@ -2,13 +2,16 @@ package com.mvoro.developer.springmvcrecipeproject.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
+import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import com.mvoro.developer.springmvcrecipeproject.services.RecipeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +70,16 @@ public class RecipeController {
 
         // Redirect to the main page
         return "redirect:/";
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFoundException() {
+        log.error("Handling 'Not Found' Exception...");
+
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("recipe/404error");
+
+        return modelAndView;
     }
 
 }
