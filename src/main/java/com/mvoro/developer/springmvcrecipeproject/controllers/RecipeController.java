@@ -74,27 +74,4 @@ public class RecipeController {
         return "redirect:/";
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFoundException(final Exception e) {
-        log.error("Handling 'Not Found' Exception...");
-
-        final ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("recipe/404error");
-        modelAndView.addObject("exception", e);
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormatException(final Exception e) {
-        log.error("Handling 'Bad Request' Exception...");
-
-        final ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("recipe/errors/400error");
-        modelAndView.addObject("exception", e);
-
-        return modelAndView;
-    }
-
 }
