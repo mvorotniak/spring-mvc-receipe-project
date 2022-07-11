@@ -1,21 +1,17 @@
 package com.mvoro.developer.springmvcrecipeproject.controllers;
 
-import org.springframework.http.HttpStatus;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.mvoro.developer.springmvcrecipeproject.commands.RecipeCommand;
-import com.mvoro.developer.springmvcrecipeproject.exceptions.NotFoundException;
 import com.mvoro.developer.springmvcrecipeproject.services.RecipeService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,7 +46,7 @@ public class RecipeController {
      * @return redirects to a page that shows the recently created recipe
      */
     @PostMapping("/recipe")
-    public String saveOrUpdateRecipe(@ModelAttribute final RecipeCommand recipeCommand) {
+    public String saveOrUpdateRecipe(@ModelAttribute @Valid final RecipeCommand recipeCommand) {
         log.info("Creating new recipe with title '{}'...", recipeCommand.getDescription());
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
 

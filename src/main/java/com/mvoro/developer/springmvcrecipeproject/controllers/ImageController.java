@@ -40,21 +40,21 @@ public class ImageController {
     }
 
     @GetMapping("recipes/{id}/image")
-    public String showImageUploadForm(@PathVariable Long id, Model model) {
+    public String showImageUploadForm(@PathVariable final Long id, final Model model) {
         model.addAttribute("recipe", this.recipeService.findCommandById(id));
 
         return "recipe/imageUploadForm";
     }
 
     @PostMapping("recipes/{id}/image")
-    public String saveImage(@PathVariable Long id, @RequestParam("imageFile") MultipartFile file) {
+    public String saveImage(@PathVariable final Long id, @RequestParam("imageFile") final MultipartFile file) {
         this.imageService.uploadImageForRecipeId(id, file);
 
         return "redirect:/recipes/" + id + "/show";
     }
 
     @GetMapping("recipes/{id}/recipeImage")
-    public void loadImage(@PathVariable Long id, final HttpServletResponse response) throws IOException {
+    public void loadImage(@PathVariable final Long id, final HttpServletResponse response) throws IOException {
         final RecipeCommand recipeCommand = this.recipeService.findCommandById(id);
 
         if (recipeCommand.getImage() != null) {
