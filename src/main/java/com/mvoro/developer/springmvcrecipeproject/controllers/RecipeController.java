@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +47,15 @@ public class RecipeController {
      * @return redirects to a page that shows the recently created recipe
      */
     @PostMapping("/recipe")
-    public String saveOrUpdateRecipe(@ModelAttribute @Valid final RecipeCommand recipeCommand) {
+    public String saveOrUpdateRecipe(@ModelAttribute("recipe") @Valid final RecipeCommand recipeCommand,
+        final BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
+
+            return "recipe/recipeform";
+        }
+
         log.info("Creating new recipe with title '{}'...", recipeCommand.getDescription());
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
 

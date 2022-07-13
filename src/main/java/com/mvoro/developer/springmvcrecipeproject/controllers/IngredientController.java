@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +72,15 @@ public class IngredientController {
     }
 
     @PostMapping("/recipe/{id}/ingredient")
-    public String saveOrUpdateIngredient(@ModelAttribute @Valid final IngredientCommand ingredientCommand) {
+    public String saveOrUpdateIngredient(@ModelAttribute("ingredient") @Valid final IngredientCommand ingredientCommand,
+        final BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
+
+            return "recipe/ingredient/form";
+        }
+
         final IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
 
         return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() + "/ingredient/" + savedIngredientCommand.getId() + "/show";

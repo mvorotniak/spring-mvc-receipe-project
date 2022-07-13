@@ -13,6 +13,7 @@ import com.mvoro.developer.springmvcrecipeproject.domain.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
@@ -47,6 +48,7 @@ public class RecipeCommand {
 
     private String source;
 
+    @URL
     private String url;
 
     private String directions;
