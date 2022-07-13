@@ -16,6 +16,7 @@
 <div class="container text-center text-white">
     <div class="row pt-5">
         <div class="col-lg-8 mx-auto">
+            <p  th:text="#{recipe.description}">Description</p>
             <h1 class="display-4" th:text="${recipe.description}">Not Found</h1>
             <div th:each="category: ${recipe.categories}">
                 <p class="lead mb-0" th:text="${category.name}">Category</p>
@@ -36,8 +37,8 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" class="col-3">Preparation Time</th>
-                        <th scope="col" class="col-3">Cook Time</th>
+                        <th scope="col" class="col-3" th:text="#{recipe.prepTime}">Preparation Time</th>
+                        <th scope="col" class="col-3" th:text="#{recipe.cookTime}">Cook Time</th>
                         <th scope="col" class="col-3">Servings</th>
                         <th scope="col" class="col-3">Difficulty</th>
                     </tr>
