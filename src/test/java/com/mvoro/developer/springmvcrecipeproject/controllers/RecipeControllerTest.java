@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -69,10 +71,22 @@ class RecipeControllerTest {
     void saveOrUpdateRecipe() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(2L);
+        recipeCommand.setDescription("Recipe description");
+        recipeCommand.setCookTime(100);
+        recipeCommand.setPrepTime(100);
+        recipeCommand.setServings(2);
+        recipeCommand.setUrl("https://www.simplyrecipes.com/pumpkin-chocolate-chip-muffins-recipe-5206559");
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
 
-        mockMvc.perform(post("/recipes/recipe"))
+        mockMvc.perform(post("/recipes/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "Recipe description")
+                .param("cookTime", "100")
+                .param("prepTime", "100")
+                .param("servings", "2")
+                .param("url", "https://www.simplyrecipes.com/pumpkin-chocolate-chip-muffins-recipe-5206559"))
             .andExpect(status().is3xxRedirection())
             .andExpect(view().name("redirect:/recipes/" + recipeCommand.getId() + "/show"));
     }

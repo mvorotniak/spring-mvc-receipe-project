@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -106,7 +108,10 @@ class IngredientControllerTest {
         ingredientCommand.setRecipeId(1L);
         when(ingredientService.saveIngredientCommand(any())).thenReturn(ingredientCommand);
 
-        mockMvc.perform(post("/recipe/" + 1L + "/ingredient"))
+        mockMvc.perform(post("/recipe/" + 1L + "/ingredient")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("description", "Ingredient description")
+                .param("amount", "10"))
             .andExpect(status().is3xxRedirection());
 
         verify(ingredientService, times(1)).saveIngredientCommand(any());
