@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306
+    username: pro_user
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: validate #Validate the database schema
+    database-platform: org.hibernate.dialect.MySQL8Dialect #Setting the database dialect
+    database: mysql
+    show-sql: false #Do not show SQL pro logs on console
