@@ -62,6 +62,11 @@
             <artifactId>jquery</artifactId>
             <version>3.6.0</version>
         </dependency>
+        <!--MySQL Driver-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
