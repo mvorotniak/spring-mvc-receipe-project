@@ -3,9 +3,18 @@ spring:
     url: jdbc:mysql://localhost:3306/mysql_dev
     username: dev_user
     password: pass
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: validate #Validate the database schema
     database-platform: org.hibernate.dialect.MySQL8Dialect #Setting the database dialect
     database: mysql
     show-sql: true #Show SQL logs on console
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation: # Generates SQL script with DB schema after application run and stores it in a file
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: recipes_database_create.sql
